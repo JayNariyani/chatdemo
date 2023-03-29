@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Keyboard, StyleSheet, Text, TextInput, ToastAndroid, TouchableOpacity, View } from 'react-native'
+import { Alert, Keyboard, StyleSheet, Text, TextInput, ToastAndroid, TouchableOpacity, View } from 'react-native'
 import ButtonComponent from '../../components/ButtonComponent/ButtonComponent';
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
@@ -14,13 +14,13 @@ const Login = () => {
                 .then(res => { console.log(res) })
                 .catch(err => console.log(err))
         } else {
-            ToastAndroid('Please enter valid email and password')
+            Alert.alert('Please enter valid email and password')
         }
         Keyboard.dismiss()
     }
 
     signUpMethod = () => {
-        if (email && password && passwordAgain && password == passwordAgain) {
+        if (name && email && password && passwordAgain && password == passwordAgain) {
             auth()
                 .createUserWithEmailAndPassword(email, password)
                 .then(async res => {
@@ -45,7 +45,7 @@ const Login = () => {
                 })
                 .catch(err => console.log(err))
         } else {
-            ToastAndroid('Please enter valid email and password')
+            Alert.alert('Please fill all the details')
         }
         Keyboard.dismiss()
     }
@@ -70,11 +70,13 @@ const Login = () => {
                     style={styles.textInput}
                 />
                 <TextInput
+                    secureTextEntry
                     onChangeText={val => setPassword(val)}
                     placeholder={'Password'}
                     style={styles.textInput}
                 />
                 {!signIn && <TextInput
+                    secureTextEntry
                     onChangeText={val => setPasswordAgain(val)}
                     placeholder={'Confirm Password'}
                     style={styles.textInput}
